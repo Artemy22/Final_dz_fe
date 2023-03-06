@@ -27,6 +27,13 @@ export default class MainPage {
         cy.url().should('equal', 'http://juice-shop-sanitarskyi.herokuapp.com/#/address/select') 
     }
 
+    getAddNewAddressButton() {
+        return cy.get('div.ng-star-inserted .mat-focus-indicator')
+    }
+
+    clickAddNewAddressButton() {
+        this.getAddNewAddressButton().click()
+    }
 
 
 
