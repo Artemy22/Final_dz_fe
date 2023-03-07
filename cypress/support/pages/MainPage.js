@@ -11,9 +11,9 @@ export default class MainPage {
             .and('be.visible')
     }
 
-    firstPositionAddedToBasket() {
+    firstPositionAddedToBasket(user) {
         cy.get('[routerlink="/basket"]').click()
-        cy.get('h1').should('contain', 'Your Basket (Hailie.Kiehn39@hotmail.com)')
+        cy.get('h1').should('contain', `Your Basket (${user.email})`)
         cy.get('.mat-row :contains(Apple Juice (1000ml))')
             .should('exist')
             .and('be.visible')
@@ -33,6 +33,7 @@ export default class MainPage {
 
     clickAddNewAddressButton() {
         this.getAddNewAddressButton().click()
+        cy.url().should('equal', 'http://juice-shop-sanitarskyi.herokuapp.com/#/address/create') 
     }
 
 

@@ -14,7 +14,7 @@ var registerPage = new RegisterPage()
 var loginPage = new LoginPage()
 
 describe('template spec', () => {
-  it.skip('passes', () => {
+  it('passes', () => {
     cy.visit('/')
     goToLoginPageBasic()
     loginPage.clickOnNotYetACustomer()
