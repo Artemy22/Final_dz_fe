@@ -11,20 +11,25 @@ export default class MainPage {
             .and('be.visible')
     }
 
+    getMyGoods() {
+        return 'Apple Juice (1000ml)'
+    }
+
     firstPositionAddedToBasket(user) {
         cy.get('[routerlink="/basket"]').click()
         cy.get('h1').should('contain', `Your Basket (${user.email})`)
-        cy.get('.mat-row :contains(Apple Juice (1000ml))')
+        cy.get(`.mat-row :contains(${this.getMyGoods()})`)
             .should('exist')
             .and('be.visible')
     }
+
 
     getCheckoutButton() {
         return cy.get('#checkoutButton')
     }
     clickCheckoutButton() {
         this.getCheckoutButton().click()
-        cy.url().should('equal', 'http://juice-shop-sanitarskyi.herokuapp.com/#/address/select') 
+        cy.url().should('equal', 'http://juice-shop-sanitarskyi.herokuapp.com/#/address/select')
     }
 
     getAddNewAddressButton() {
@@ -33,7 +38,7 @@ export default class MainPage {
 
     clickAddNewAddressButton() {
         this.getAddNewAddressButton().click()
-        cy.url().should('equal', 'http://juice-shop-sanitarskyi.herokuapp.com/#/address/create') 
+        cy.url().should('equal', 'http://juice-shop-sanitarskyi.herokuapp.com/#/address/create')
     }
 
 

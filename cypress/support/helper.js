@@ -4,7 +4,7 @@ export const inputFiller = (inputLocator, valueToEnter) => {
     cy.get(inputLocator).type(valueToEnter).should('have.value', valueToEnter)
 }
 
-export const goToLoginPageBasic = () => {
+export const  goToLoginPageBasic = () => {
     cy.visit('/')
         cy.get('.close-dialog').click({ force: true })
         cy.get('.cc-btn').click({ force: true })
@@ -52,7 +52,7 @@ export const loginSilentBetter = () => {
     let token;
     cy.request({
         method: 'POST',
-        url: '/index.php?rt=account/login',
+        url: '/rest/user/login',
         body: {
             csrftoken: csrfToken,
             csrfinstance: csrfInstance,

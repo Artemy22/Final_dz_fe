@@ -8,6 +8,7 @@ import LoginPage from "../support/pages/LoginPage"
 
 user.email = faker.internet.email()
 user.password = faker.internet.password()+"1!"
+
 user.securityAnswer = faker.internet.faker.internet.password()+"answer"
 
 var registerPage = new RegisterPage()
@@ -18,7 +19,6 @@ describe('template spec', () => {
     cy.visit('/')
     goToLoginPageBasic()
     loginPage.clickOnNotYetACustomer()
-    console.log(user)
     registerPage.signUpFlow(user)
   })
 })
