@@ -28,6 +28,34 @@ export const loginViaUI = (user) => {
     cy.get('.menu_text').should('contain', `Welcome back ${user.firstName}`)
 }
 
+export const registerInterceptor = () => {
+    cy.intercept({
+        method: 'GET',
+        url: 'http://juice-shop-sanitarskyi.herokuapp.com/rest/captcha/',
+    }).as('captcha')
+}
+
+export const captchaAnswerProvider = () => {
+    cy.wait('@captcha')
+        .its('response.body')
+        .then((body) => {
+            cy.get('#captchaControl').type(body.answer)
+        })
+}
+
+
+
+
+/*
+    .its('response.body')
+    .then((body) => {
+        // parsing might be not needed always, depends on the api response
+        const answerCaptcha = JSON.parse(body)
+        cy.log(answerCaptcha)
+    })
+    */
+
+
 export const loginSilent = ((user) => {
     let csrfToken;
     let csrfInstance;

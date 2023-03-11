@@ -23,6 +23,21 @@ export default class MainPage {
             .and('be.visible')
     }
 
+    getBurgerButton() {
+        return cy.get('[aria-label="Open Sidenav"]')
+    }
+
+    clickBurgerButton() {
+        this.getBurgerButton().click()
+    }
+
+    getBurgerCustomerFeedbackOption() {
+        return cy.get('[routerlink="/contact"]')
+    }
+
+    clickBurgerCustomerFeedbackOption() {
+        this.getBurgerCustomerFeedbackOption().click()
+    }
 
     getCheckoutButton() {
         return cy.get('#checkoutButton')
