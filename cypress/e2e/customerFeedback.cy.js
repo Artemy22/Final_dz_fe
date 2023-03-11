@@ -21,8 +21,11 @@ describe('Feedbacks', () => {
     registerInterceptor()
     mainPage.clickBurgerButton()
     mainPage.clickBurgerCustomerFeedbackOption()
+    feedbackPage.theSubmitButtonDisabled()
     captchaAnswerProvider()
-    
-
+    feedbackPage.moveSliderRating()
+    feedbackPage.leavingFeedbackComment("Art's comment")
+    feedbackPage.clickTheSubmitButton()
+    feedbackPage.successFeedback()
   })
 })
