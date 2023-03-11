@@ -81,7 +81,7 @@ export default class LoginPage {
             .and('be.visible')
     }
 
-    submitLoginForm(user) {
+    submitLoginForm(email, password) {
         this.getEmailInput().type(user.email)
         this.getPasswordInput().type(user.password);
         this.getRememberMeCheckBox().click()
@@ -90,30 +90,39 @@ export default class LoginPage {
         this.loggedInTrue()
     }
 
-    signInWrongEmail(user) {
+    submitLoginFormForFaker(email, password) {
+        this.getEmailInput().type(email)
+        this.getPasswordInput().type(password);
+        this.getRememberMeCheckBox().click()
+        this.loginButtonEnabled()
+        this.getLoginButton().click()
+        this.loggedInTrue()
+    }
+
+    signInWrongEmail(password) {
         this.getEmailInput().type("qa@")
-        this.getPasswordInput().type(user.password);
+        this.getPasswordInput().type(password);
         this.getRememberMeCheckBox().click()
         this.getLoginButton().click()
         this.getErrorInvalidEmailOrPassword().should('exist')
     }
 
-    signInWrongPassword(user) {
-        this.getEmailInput().type(user.email)
+    signInWrongPassword(email) {
+        this.getEmailInput().type(email)
         this.getPasswordInput().type("qaw");
         this.getRememberMeCheckBox().click()
         this.getLoginButton().click()
         this.getErrorInvalidEmailOrPassword().should('exist')
     }
 
-    signInEmptyEmail(user) {
+    signInEmptyEmail() {
         this.getEmailInput().click()
         this.getPasswordInput().click()
         this.loginButtonDisabled()
         this.getErrorProvideEmail().should('exist')
     }
 
-    signInEmptyPassword(user) {
+    signInEmptyPassword() {
         this.getPasswordInput().click()
         this.loginButtonDisabled()
         this.getEmailInput().click()

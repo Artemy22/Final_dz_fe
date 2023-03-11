@@ -16,7 +16,9 @@ export default class MainPage {
     }
 
     positionAddedToBasket(user) {
+        cy.wait(2000)
         cy.get('[routerlink="/basket"]').click()
+        cy.wait(1000)
         cy.get('h1').should('contain', `Your Basket (${user.email})`)
         cy.get(`.mat-row :contains(${this.getMyGoods()})`)
             .should('exist')

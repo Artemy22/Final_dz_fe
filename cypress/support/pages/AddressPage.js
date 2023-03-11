@@ -10,19 +10,19 @@ export default class AddressCreatePage {
     }
 
     getCountryInput() {
-        return cy.get('#mat-input-3') //cy.get('#mat-error-9')
+        return cy.get('#mat-input-9') //cy.get('#mat-error-9')
     }
 
     getNameInput() {
-        return cy.get('#mat-input-4') //cy.get('#mat-error-10')
+        return cy.get('#mat-input-10') //cy.get('#mat-error-10')
     }
 
     getMobileNumberInput() {
-        return cy.get('#mat-input-5') //cy.get('#mat-error-8')
+        return cy.get('#mat-input-11') //cy.get('#mat-error-8')
     }
 
     getZipCodeInput() {
-        return cy.get('#mat-input-6') //cy.get('#mat-error-11')
+        return cy.get('#mat-input-12') //cy.get('#mat-error-11')
     }
 
     getAddressInput() {
@@ -30,11 +30,11 @@ export default class AddressCreatePage {
     }
 
     getCityInput() {
-        return cy.get('#mat-input-8')
+        return cy.get('#mat-input-14')
     }
 
     getStateInput() {
-        return cy.get('#mat-input-9')
+        return cy.get('#mat-input-15')
     }
 
     getSubmitButton() {
@@ -117,11 +117,11 @@ export default class AddressCreatePage {
     fillCardData(user) {
         this.getContinueButtonDeliveryOptions().should('be.disabled')
         this.getAddNewCArdElement().click()
-        cy.get('#mat-input-10').type(user.cardName, { force: true })
-        cy.get('#mat-input-11').type(999 + user.cardNumber, { force: true })
+        cy.get('#mat-input-16').type(user.cardName, { force: true })
+        cy.get('#mat-input-17').type(999 + user.cardNumber, { force: true })
         //cy.get('#mat-input-5').click()
-        cy.get('#mat-input-12').select('7')
-        cy.get('#mat-input-13').select('2099')
+        cy.get('#mat-input-18').select('7')
+        cy.get('#mat-input-19').select('2099')
         cy.get('#submitButton').click()
         cy.get('.mat-simple-snack-bar-content').should('exist').and('be.visible')
         cy.get('.mat-radio-inner-circle').click()

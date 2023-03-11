@@ -6,11 +6,15 @@ import user from '../fixtures/user.json'
 import { faker } from '@faker-js/faker'
 import MainPage from "../support/pages/MainPage"
 import AddressPage from "../support/pages/AddressPage"
+import RegisterPage from "../support/pages/RegisterPage"
 
 const loginPage = new LoginPage()
 const mainPage = new MainPage()
 const addressPage = new AddressPage()
+const registerPage = new RegisterPage()
 
+user.email = faker.internet.email()
+user.password = faker.internet.password()+"1!"
 user.country = faker.address.country()
 user.name = faker.internet.userName()
 user.number = faker.datatype.number({ min: 1000000, max: 9999999999, precision: 1 })
@@ -25,8 +29,13 @@ user.cardName = faker.finance.creditCardIssuer()
 describe('template spec', () => {
   it('passes', () => {
     goToLoginPageBasic()
-    loginPage.submitLoginForm(user)
+
+    loginPage.clickOnNotYetACustomer()
+    registerPage.signUpFlow(user)
+    loginPage.submitLoginFormForFaker(user.email, user.password)
+
     recFinder(mainPage.getMyGoods(), user)
+
     mainPage.positionAddedToBasket(user)
     mainPage.clickCheckoutButton()
     addressPage.addNewAddressFlow(user)
