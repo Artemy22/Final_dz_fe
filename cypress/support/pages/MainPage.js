@@ -12,10 +12,10 @@ export default class MainPage {
     }
 
     getMyGoods() {
-        return 'Apple Juice (1000ml)'
+        return 'Quince Juice (1000ml)'
     }
 
-    firstPositionAddedToBasket(user) {
+    positionAddedToBasket(user) {
         cy.get('[routerlink="/basket"]').click()
         cy.get('h1').should('contain', `Your Basket (${user.email})`)
         cy.get(`.mat-row :contains(${this.getMyGoods()})`)

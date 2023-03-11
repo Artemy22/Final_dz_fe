@@ -1,6 +1,7 @@
 ///<reference types="cypress"/>
 import LoginPage from "../support/pages/LoginPage"
 import { goToLoginPageBasic } from "../support/helper"
+import { recFinder } from "../support/helper"
 import user from '../fixtures/user.json'
 import { faker } from '@faker-js/faker'
 import MainPage from "../support/pages/MainPage"
@@ -24,14 +25,15 @@ user.cardName = faker.finance.creditCardIssuer()
 describe('template spec', () => {
   it('passes', () => {
     goToLoginPageBasic()
-    loginPage.submitLoginForm(user) 
-    mainPage.clickAddToBasketButtonFirstGoods()
-    mainPage.firstPositionAddedToBasket(user)
+    loginPage.submitLoginForm(user)
+    recFinder(mainPage.getMyGoods(), user)
+    mainPage.positionAddedToBasket(user)
     mainPage.clickCheckoutButton()
     addressPage.addNewAddressFlow(user)
     addressPage.selectFirstAddress()
     addressPage.selectFirstDeliveryOption()
     addressPage.fillCardData(user)
     addressPage.finishPayment(mainPage.getMyGoods())
+  
   })
 })
