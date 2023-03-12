@@ -13,7 +13,6 @@ export default class LoginPage {
         return cy.get('[title="Login"]');
     }
 
-
     getContinueSignUpButton() {
         return cy.get('[title="Continue"]');
     }
@@ -50,6 +49,10 @@ export default class LoginPage {
         return cy.get('#mat-error-1')
     }
 
+    getErrorProvideEmail() {
+        return cy.get('#mat-error-0')
+    }
+
     getErrorInvalidEmailOrPassword() {
         return cy.get('.error')
     }
@@ -78,12 +81,51 @@ export default class LoginPage {
             .and('be.visible')
     }
 
-    submitLoginForm(user) {
+    submitLoginForm(email, password) {
         this.getEmailInput().type(user.email)
         this.getPasswordInput().type(user.password);
         this.getRememberMeCheckBox().click()
         this.loginButtonEnabled()
         this.getLoginButton().click()
         this.loggedInTrue()
+    }
+
+    submitLoginFormForFaker(email, password) {
+        this.getEmailInput().type(email)
+        this.getPasswordInput().type(password);
+        this.getRememberMeCheckBox().click()
+        this.loginButtonEnabled()
+        this.getLoginButton().click()
+        this.loggedInTrue()
+    }
+
+    signInWrongEmail(password) {
+        this.getEmailInput().type("qa@")
+        this.getPasswordInput().type(password);
+        this.getRememberMeCheckBox().click()
+        this.getLoginButton().click()
+        this.getErrorInvalidEmailOrPassword().should('exist')
+    }
+
+    signInWrongPassword(email) {
+        this.getEmailInput().type(email)
+        this.getPasswordInput().type("qaw");
+        this.getRememberMeCheckBox().click()
+        this.getLoginButton().click()
+        this.getErrorInvalidEmailOrPassword().should('exist')
+    }
+
+    signInEmptyEmail() {
+        this.getEmailInput().click()
+        this.getPasswordInput().click()
+        this.loginButtonDisabled()
+        this.getErrorProvideEmail().should('exist')
+    }
+
+    signInEmptyPassword() {
+        this.getPasswordInput().click()
+        this.loginButtonDisabled()
+        this.getEmailInput().click()
+        this.getErrorProvidePassword().should('exist')
     }
 }

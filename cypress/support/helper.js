@@ -1,4 +1,10 @@
 ///<reference types="cypress"/>
+import MainPage from "./pages/MainPage"
+import AddressPage from "./pages/AddressPage"
+import user from "../fixtures/user.json"
+
+const mainPage = new MainPage()
+const addressPage = new AddressPage()
 
 export const inputFiller = (inputLocator, valueToEnter) => {
     cy.get(inputLocator).type(valueToEnter).should('have.value', valueToEnter)
@@ -6,11 +12,11 @@ export const inputFiller = (inputLocator, valueToEnter) => {
 
 export const goToLoginPageBasic = () => {
     cy.visit('/')
-        cy.get('.close-dialog').click({ force: true })
-        cy.get('.cc-btn').click({ force: true })
-        cy.get('#navbarAccount').click()
-        cy.get('#navbarLoginButton').click()
-        cy.url().should('contain', 'http://juice-shop-sanitarskyi.herokuapp.com/#/login')
+    cy.get('.close-dialog').click({ force: true })
+    cy.get('.cc-btn').click({ force: true })
+    cy.get('#navbarAccount').click()
+    cy.get('#navbarLoginButton').click()
+    cy.url().should('contain', 'http://juice-shop-sanitarskyi.herokuapp.com/#/login')
 }
 
 export const loginViaUI = (user) => {
@@ -21,6 +27,34 @@ export const loginViaUI = (user) => {
     cy.get('[title="Login"]').click()
     cy.get('.menu_text').should('contain', `Welcome back ${user.firstName}`)
 }
+
+export const registerInterceptor = () => {
+    cy.intercept({
+        method: 'GET',
+        url: 'http://juice-shop-sanitarskyi.herokuapp.com/rest/captcha/',
+    }).as('captcha')
+}
+
+export const captchaAnswerProvider = () => {
+    cy.wait('@captcha')
+        .its('response.body')
+        .then((body) => {
+            cy.get('#captchaControl').type(body.answer)
+        })
+}
+
+
+
+
+/*
+    .its('response.body')
+    .then((body) => {
+        // parsing might be not needed always, depends on the api response
+        const answerCaptcha = JSON.parse(body)
+        cy.log(answerCaptcha)
+    })
+    */
+
 
 export const loginSilent = ((user) => {
     let csrfToken;
@@ -52,7 +86,7 @@ export const loginSilentBetter = () => {
     let token;
     cy.request({
         method: 'POST',
-        url: '/index.php?rt=account/login',
+        url: '/rest/user/login',
         body: {
             csrftoken: csrfToken,
             csrfinstance: csrfInstance,
@@ -68,16 +102,27 @@ export const loginSilentBetter = () => {
     })
 }
 
+export const recFinder = (productTitleToFind) => {
+    cy.get('mat-sidenav-content').then(elem => {
+        if (elem.text().includes(`${productTitleToFind}`)) {
+            cy.get(`mat-card:contains(${productTitleToFind}) button`).click()
+        } else {
+            cy.get('.mat-paginator-navigation-next').click()
+            recFinder(productTitleToFind)
+        }
+    })
+}
+
 export const productFinder = (productTitleToFind) => {
     cy.get('.pull-right .pagination').find('li').then(elm => {
+        //
         for (let i = 0; i < elm.length; i++) {
             cy.get(".prdocutname").then(($a) => {
                 if ($a.text().includes(`${productTitleToFind}`)) {
                     cy.get(`[title="${productTitleToFind}"]`).click()
                     cy.log('***FOUND***')
                 } else {
-                    cy.log('***NOT FOUND***')
-                    cy.visit(`https://automationteststore.com/index.php?rt=product/search&keyword=e%20&category_id=0&sort=date_modified-ASC&limit=20&page=${i}`)
+                    cy.get('.mat-paginator-navigation-next')
                 }
             })
         }
